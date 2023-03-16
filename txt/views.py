@@ -1,15 +1,17 @@
-import os
 import re
 
+from django.contrib.admin.models import LogEntry, DELETION
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
-from django.views.generic import CreateView, DetailView, UpdateView, TemplateView, FormView
+from django.views.generic import CreateView, DetailView, UpdateView, FormView
 
 from txt.forms import DocumentForm, UploadDocumentForm
+from txt.mixins import TextCreateMixin, TextUpdateMixin, TextViewMixin, TextUploadMixin
 from txt.models import TextDocument
 
 User = get_user_model()
@@ -39,7 +41,7 @@ def download_txt(request, pk):
     return response
 
 
-class TextCreateView(LoginRequiredMixin, CreateView):
+class TextCreateView(LoginRequiredMixin, TextCreateMixin, CreateView):
     template_name = "txt/create_txt.html"
     model = TextDocument
     form_class = DocumentForm
@@ -53,8 +55,21 @@ class TextCreateView(LoginRequiredMixin, CreateView):
     def get_success_url(self, *args, **kwargs):  # use this to direct to its immediate detail view
         return reverse_lazy('txt-detail', kwargs={'pk': self.object.pk})
 
+    def get_queryset(self):
+        context_p = User.objects.all()
+        return context_p
 
-class TextUpdateView(LoginRequiredMixin, UpdateView):
+    def get_context_data(self, **kwargs):
+        # ___________________________________________________________
+
+        context = super().get_context_data(**kwargs)
+
+        context['user'] = User.objects.filter(id=self.request.user.id)
+
+        return context
+
+
+class TextUpdateView(LoginRequiredMixin, TextUpdateMixin, UpdateView):
     template_name = "txt/update_txt.html"
     model = TextDocument
     form_class = DocumentForm
@@ -71,49 +86,37 @@ class TextUpdateView(LoginRequiredMixin, UpdateView):
 
 def text_delete_view(request, pk):
     txt = TextDocument.objects.get(id=pk)
+    LogEntry.objects.log_action(
+        user_id=request.user.id,
+        content_type_id=ContentType.objects.get_for_model(TextDocument).pk,
+        object_id=txt.id,
+        object_repr=txt.title,
+        action_flag=DELETION)
     txt.delete()
     return redirect('home')
 
 
-class TextDetailView(LoginRequiredMixin, DetailView):
+class TextDetailView(LoginRequiredMixin, TextViewMixin, DetailView):
     template_name = "txt/detail_txt.html"
     model = TextDocument
 
 
-class UploadFormView(LoginRequiredMixin, FormView):
+class UploadFormView(LoginRequiredMixin, TextUploadMixin, FormView):
     template_name = "txt/upload_txt.html"
     form_class = UploadDocumentForm
 
-    def post(self, request, *args, **kwargs):
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        file = request.FILES['upload']
-        split_tup = os.path.splitext(file.name)
-        file_name = split_tup[0]
-
-        if form.is_valid():
-            user = User.objects.get(id=self.request.user.id)
-
-            txt = file.read()
-
-            text = TextDocument(title=f'{file_name}', content=txt.decode("utf-8"), author=user)
-            text.save()
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
-
-    def get_success_url(self, *args, **kwargs):
-        return reverse_lazy('home')
-
-
-class HomeView(LoginRequiredMixin, TemplateView):
-    template_name = "txt/home.html"
+    def get_queryset(self):
+        context_p = User.objects.all()
+        return context_p
 
     def get_context_data(self, **kwargs):
         # ___________________________________________________________
 
         context = super().get_context_data(**kwargs)
 
-        context['documents'] = TextDocument.objects.filter(author=self.request.user.id)
+        context['user'] = User.objects.filter(id=self.request.user.id)
 
         return context
+
+    def get_success_url(self, *args, **kwargs):  # use this to direct to its immediate detail view
+        return reverse_lazy('home')

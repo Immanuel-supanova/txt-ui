@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
-from django.views.generic import CreateView, DetailView, UpdateView, FormView
+from django.views.generic import CreateView, DetailView, UpdateView, FormView, TemplateView
 
 from txt.forms import DocumentForm, UploadDocumentForm
 from txt.mixins import TextCreateMixin, TextUpdateMixin, TextViewMixin, TextUploadMixin
@@ -27,6 +27,18 @@ def cleanhtml(raw_html):
 
 
 # Create your views here.
+
+class HomeView(LoginRequiredMixin, TemplateView):
+    template_name = "txt/home.html"
+
+    def get_context_data(self, **kwargs):
+        # ___________________________________________________________
+
+        context = super().get_context_data(**kwargs)
+
+        context['documents'] = TextDocument.objects.all()
+
+        return context
 
 def download_txt(request, pk):
     text = TextDocument.objects.filter(id=pk)

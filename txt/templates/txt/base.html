@@ -15,7 +15,18 @@
 <body>
 
 {% block body %}
+<ul class="nav justify-content-center">
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'home' %}">Home</a>
+  </li>
+  <li class="nav-item">
+      <a class="nav-link" href="{% url 'txt-create' %}">New</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'txt-upload' %}">Open</a>
+  </li>
 
+</ul>
 {% if messages %}
 <div class="card" style="background-color:#f5b942">
     <strong>Messages:</strong>

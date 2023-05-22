@@ -15,6 +15,7 @@ INSTALLED_APPS = [
     'txt',
 
     'django_bootstrap5',
+    'django_cleanup.apps.CleanupConfig',
     'ckeditor',
 
 ]
@@ -64,4 +65,10 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+```
+In your command line interface that you use, write the following commands to complete the setup
+```commandline
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
 ```

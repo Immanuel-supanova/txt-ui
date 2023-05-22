@@ -20,16 +20,9 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('accounts/', include('allauth.urls')),
-    path('accounts/', include('register.urls')),
     path('', include('txt.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-
-handler400 = 'register.views.bad_request_view'
-handler403 = 'register.views.access_denied_view'
-handler404 = 'register.views.page_not_found_view'
-handler500 = 'register.views.internal_server_view'

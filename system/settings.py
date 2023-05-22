@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
-    'register',
     'txt',
 
     'django_bootstrap5',
@@ -58,8 +57,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'system.urls'
-
-AUTH_USER_MODEL = 'register.User'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
@@ -149,7 +146,7 @@ CKEDITOR_CONFIGS = {
 MEDIA_URL = '/media/'
 MEDIA_ROOT = 'media/'
 
-LOGIN_URL = '/accounts/login/'
+LOGIN_URL = 'admin:login'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'txt',
 
     'django_bootstrap5',
+    'django_cleanup.apps.CleanupConfig',
     'ckeditor',
 
 ]

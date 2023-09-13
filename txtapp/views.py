@@ -11,7 +11,7 @@ from django.utils import timezone
 from django.views.generic import CreateView, DetailView, UpdateView, FormView, TemplateView
 
 from txt.forms import DocumentForm, UploadDocumentForm
-from txt.mixins import TextCreateMixin, TextUpdateMixin, TextViewMixin, TextUploadMixin
+from .mixins import TextCreateMixin, TextUpdateMixin, TextViewMixin, TextUploadMixin
 from txt.models import TextDocument
 
 User = get_user_model()
@@ -29,7 +29,7 @@ def cleanhtml(raw_html):
 # Create your views here.
 
 class HomeView(LoginRequiredMixin, TemplateView):
-    template_name = "txt/home.html"
+    template_name = "txtapp/home.html"
 
     def get_context_data(self, **kwargs):
         # ___________________________________________________________
@@ -39,6 +39,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
         context['documents'] = TextDocument.objects.all()
 
         return context
+
 
 def download_txt(request, pk):
     text = TextDocument.objects.filter(id=pk)
@@ -54,7 +55,7 @@ def download_txt(request, pk):
 
 
 class TextCreateView(LoginRequiredMixin, TextCreateMixin, CreateView):
-    template_name = "txt/create_txt.html"
+    template_name = "txtapp/create_txt.html"
     model = TextDocument
     form_class = DocumentForm
 
@@ -82,7 +83,7 @@ class TextCreateView(LoginRequiredMixin, TextCreateMixin, CreateView):
 
 
 class TextUpdateView(LoginRequiredMixin, TextUpdateMixin, UpdateView):
-    template_name = "txt/update_txt.html"
+    template_name = "txtapp/update_txt.html"
     model = TextDocument
     form_class = DocumentForm
 
@@ -109,12 +110,12 @@ def text_delete_view(request, pk):
 
 
 class TextDetailView(LoginRequiredMixin, TextViewMixin, DetailView):
-    template_name = "txt/detail_txt.html"
+    template_name = "txtapp/detail_txt.html"
     model = TextDocument
 
 
 class UploadFormView(LoginRequiredMixin, TextUploadMixin, FormView):
-    template_name = "txt/upload_txt.html"
+    template_name = "txtapp/upload_txt.html"
     form_class = UploadDocumentForm
 
     def get_queryset(self):

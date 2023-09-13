@@ -4,7 +4,7 @@ from .views import TextCreateView, TextDetailView, TextUpdateView, text_delete_v
     UploadFormView, HomeView
 
 urlpatterns = [
-    path('', HomeView.as_view(), name='txt'),
+    path('', HomeView.as_view(), name='home'),
     path('new/', TextCreateView.as_view(), name='txt-create'),
     path('<int:pk>/', TextDetailView.as_view(), name='txt-detail'),
     path('change/<int:pk>', TextUpdateView.as_view(), name='txt-update'),

@@ -1,0 +1,32 @@
+{% extends "txt/base.html"%}
+{% block title %}{{ object.title }}{% endblock %}
+{% block content %}
+<div class="card" style="height:600px">
+    <div class="card-header">
+        <div class="row">
+            <div class="col">
+                <h3>{{object.name}}</h3>
+            </div>
+            <div class="col" style="margin-left:150px">
+                <div class="list-group list-group-horizontal ">
+                    <a class="list-group-item list-group-item-primary" href="{% url 'txt-update' object.pk%}">edit</a>
+                    <a class="list-group-item list-group-item-success" href="{% url 'txt-download' object.pk%}">download</a>
+                    <a class="list-group-item list-group-item-danger" href="{% url 'txt-delete' object.pk%}">delete</a>
+                </div>
+            </div>
+            <div class="col text-end">
+                <small>Author: {{object.author}}</small>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        {{ object.content|safe }}
+    </div>
+    <div class="card-footer">
+        <div class="row">
+            <div class="col"> Created: {{ object.date_created }}, {{ object.time_created }} </div>
+            <div class="col text-end"> {% if object.date_modified is not None %} Last Edited: {{object.date_modified}} {% endif %} </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,1 +1,21 @@
-{% extends "txt/base.html"%} {% block title %}New File{% endblock %} {% block content %} {% load django_bootstrap5 %} <style> overflow-x: hidden; </style> <div class="container-fluid"> <form method="POST"> {% csrf_token %} {{ form.media }} {% bootstrap_form_errors form %} <nav class="nav justify-content-center nav-fill"> <p class="nav-item">{{form.title}}</p> <p class="nav-item"> <button class="btn btn-primary" name="save">Save</button> </p> </nav> <!-- <p class="form-label">{{ form.content.label }}:</p>--> {{form.content}} </form> </div> {% endblock %}
+{% extends "txt/base.html"%}
+{% block title %}New File{% endblock %}
+{% block content %}
+{% load django_bootstrap5 %}
+<style> overflow-x: hidden; </style>
+<div class="container-fluid">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.media }}
+        {% bootstrap_form_errors form %}
+        <nav class="nav justify-content-center nav-fill">
+            <p class="nav-item">{{form.title}}</p>
+            <p class="nav-item">
+                <button class="btn btn-primary" name="save">Save</button>
+            </p>
+        </nav>
+        <!-- <p class="form-label">{{ form.content.label }}:</p>-->
+        {{form.content}}
+    </form>
+</div>
+{% endblock %}

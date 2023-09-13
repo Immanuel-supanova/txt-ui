@@ -59,8 +59,50 @@ python manage.py migrate
 python manage.py runserver
 ```
 
+-----------------------------------------------------
 
-If you want to use the txt demo app, in the urls.py file in the root directory add the following:
+If you want to use the txt demo app
+
+```commandline
+
+pip install django_ckeditor django_cleanup django_bootstrap
+
+```
+
+Settings.py
+
+```
+INSTALLED_APPS = [
+    'txt',
+    'txtapp',
+
+    'django_bootstrap5',
+    'django_cleanup.apps.CleanupConfig',
+    'ckeditor',
+
+]
+```
+```
+# ckeditor settings
+CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_CONFIGS = {
+    'awesome_ckeditor': {
+        'height': '475',
+        'width': '1225',
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline'],
+            ['Styles', 'Format', 'Font', 'FontSize']
+        ]
+    },
+}
+
+```
+
+
+
+In the urls.py file in the root directory add the following:
 
 ```
 from django.conf import settings
@@ -74,11 +116,4 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-```
-
-settings.py:
-```
-INSTALLED_APPS = [
-    'txtapp',
-]
 ```

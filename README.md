@@ -14,42 +14,7 @@ Add the following lines of code in your project settings.py file
 INSTALLED_APPS = [
     'txt',
 
-    'django_bootstrap5',
-    'django_cleanup.apps.CleanupConfig',
-    'ckeditor',
-
 ]
-```
-```
-# ckeditor settings
-CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
-CKEDITOR_UPLOAD_PATH = "uploads/"
-CKEDITOR_CONFIGS = {
-    'awesome_ckeditor': {
-        'height': '475',
-        'width': '1225',
-        'toolbar': 'Custom',
-        'toolbar_Custom': [
-            ['Bold', 'Italic', 'Underline'],
-            ['Styles', 'Format', 'Font', 'FontSize']
-        ]
-    },
-}
-
-```
-
-```
-MEDIA_URL = '/media/'
-MEDIA_ROOT = 'media/'
-```
-
-The following line of code is very important because the views in txt app use 'LoginRequiredMixin', so you must have an established authentication
-if not you can use the admin authentication system
-
-```
-LOGIN_URL = 'admin:login'
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
 ```
 
 In your command line interface that you use, write the following commands to complete the setup
@@ -98,6 +63,20 @@ CKEDITOR_CONFIGS = {
     },
 }
 
+```
+
+```
+MEDIA_URL = '/media/'
+MEDIA_ROOT = 'media/'
+```
+
+The following line of code is very important because the views in txtapp use 'LoginRequiredMixin', so you must have an established authentication
+if not you can use the admin authentication system
+
+```
+LOGIN_URL = 'admin:login'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 ```
 
 

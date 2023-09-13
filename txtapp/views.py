@@ -11,7 +11,7 @@ from django.utils import timezone
 from django.views.generic import CreateView, DetailView, UpdateView, FormView, TemplateView
 
 from txt.forms import DocumentForm, UploadDocumentForm
-from txt.mixins import TextCreateMixin, TextUpdateMixin, TextViewMixin, TextUploadMixin
+from .mixins import TextCreateMixin, TextUpdateMixin, TextViewMixin, TextUploadMixin
 from txt.models import TextDocument
 
 User = get_user_model()
@@ -39,6 +39,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
         context['documents'] = TextDocument.objects.all()
 
         return context
+
 
 def download_txt(request, pk):
     text = TextDocument.objects.filter(id=pk)

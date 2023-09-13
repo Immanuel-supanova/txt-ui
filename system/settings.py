@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     'txt',
+    'txtapp',
 
     'django_bootstrap5',
     'django_cleanup.apps.CleanupConfig',

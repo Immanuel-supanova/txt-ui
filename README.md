@@ -51,7 +51,16 @@ LOGIN_URL = 'admin:login'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 ```
-In the urls.py file in the root directory add the following:
+
+In your command line interface that you use, write the following commands to complete the setup
+```commandline
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
+```
+
+
+If you want to use the txt demo app, in the urls.py file in the root directory add the following:
 
 ```
 from django.conf import settings
@@ -59,16 +68,17 @@ from django.conf.urls.static import static
 from django.urls import path, include
 
 urlpatterns = [
-    path('', include('txt.urls')),
+    path('', include('txtapp.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 ```
-In your command line interface that you use, write the following commands to complete the setup
-```commandline
-python manage.py makemigrations
-python manage.py migrate
-python manage.py runserver
+
+settings.py:
+```
+INSTALLED_APPS = [
+    'txtapp',
+]
 ```

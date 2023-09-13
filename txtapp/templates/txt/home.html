@@ -1,0 +1,36 @@
+{% extends "txt/base.html"%}
+{% block title %}File{% endblock %}
+{% block content %}
+<div class="card" style="margin:100px">
+    <div class="card-header text-center">
+        <h4>{{ user.username }}</h4>
+    </div>
+    <div class="card-body">
+        <p>All your files: </p>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">File</th>
+                <th scope="col">Created</th>
+                <th scope="col">Last Edited</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for doc in documents %}
+            <tr>
+                <th scope="row"> - </th>
+                <td><a href="{% url 'txt-detail' doc.id %}" style="text-decoration:none; color:black">{{ doc.name }}</a> </td>
+                <td> {{ doc.date_created }}</td>
+                <td>{{ doc.date_modified }}</td>
+                <td><a class="btn btn-primary" href="{% url 'txt-update' doc.id %}">edit</a></td>
+                <td><a class="btn btn-danger" href="{% url 'txt-delete' doc.id %}">delete</a></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
